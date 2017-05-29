@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Website Optimization project for Udacity Front-End Web Developer Nanodegree program",
   "devDependencies": {
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "gulp-imagemin": "^3.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-responsive": "^2.7.1",
+    "imagemin-guetzli": "^1.0.0"
   }
 }
