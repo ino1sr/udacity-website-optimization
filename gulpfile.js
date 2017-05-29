@@ -4,6 +4,9 @@ var imagemin = require('gulp-imagemin');
 var imageminGuetzli = require('imagemin-guetzli');
 var responsive = require('gulp-responsive');
 var rename = require("gulp-rename");
+var htmlmin = require('gulp-htmlmin');
+var cleanCSS = require('gulp-clean-css');
+var concat = require('gulp-concat');
 
 // Optimize images
 
@@ -41,4 +44,29 @@ gulp.task('responsive-thumbnail', function() {
         .pipe(gulp.dest('dist/views/images'));
 });
 
+// Minify html
+
+gulp.task('minify-html', function() {
+    return gulp.src(['src/*.html', 'src/views/*.html'], { base: 'src' })
+        .pipe(htmlmin({ collapseWhitespace: true }))
+        .pipe(gulp.dest('dist'));
+});
+
+// Clean css
+
+gulp.task('minify-css', function() {
+    return gulp.src('src/css/*.css')
+        .pipe(cleanCSS({ compatibility: 'ie8' }))
+        .pipe(gulp.dest('dist/css'));
+});
+
+gulp.task('minify-css-views', function() {
+    return gulp.src('src/views/css/*.css')
+        .pipe(concat('styles.css'))
+        .pipe(cleanCSS({ compatibility: 'ie8' }))
+        .pipe(gulp.dest('dist/views/css'));
+});
+
 gulp.task('images', ['imagemin', 'png', 'responsive-img', 'responsive-thumbnail']);
+gulp.task('minify', ['minify-html', 'minify-css', 'minify-css-views']);
+
