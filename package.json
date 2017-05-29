@@ -1,0 +1,8 @@
+{
+  "name": "udacity-website-optimization",
+  "version": "1.0.0",
+  "description": "Website Optimization project for Udacity Front-End Web Developer Nanodegree program",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}
