@@ -7,6 +7,7 @@ var rename = require("gulp-rename");
 var htmlmin = require('gulp-htmlmin');
 var cleanCSS = require('gulp-clean-css');
 var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
 
 // Optimize images
 
@@ -65,6 +66,14 @@ gulp.task('minify-css-views', function() {
         .pipe(concat('styles.css'))
         .pipe(cleanCSS({ compatibility: 'ie8' }))
         .pipe(gulp.dest('dist/views/css'));
+});
+
+// Minify js
+
+gulp.task('uglify', function() {
+    return gulp.src(['src/js/*.js', 'src/views/js/*.js'], { base: 'src' })
+        .pipe(uglify())
+        .pipe(gulp.dest('dist'));
 });
 
 gulp.task('images', ['imagemin', 'png', 'responsive-img', 'responsive-thumbnail']);

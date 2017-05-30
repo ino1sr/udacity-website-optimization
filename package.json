@@ -10,6 +10,7 @@
     "gulp-imagemin": "^3.2.0",
     "gulp-rename": "^1.2.2",
     "gulp-responsive": "^2.7.1",
+    "gulp-uglify": "^3.0.0",
     "imagemin-guetzli": "^1.0.0"
   }
 }
