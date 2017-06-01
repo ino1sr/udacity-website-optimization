@@ -8,6 +8,7 @@ var htmlmin = require('gulp-htmlmin');
 var cleanCSS = require('gulp-clean-css');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+var critical = require('critical');
 
 // Optimize images
 
@@ -74,6 +75,19 @@ gulp.task('uglify', function() {
     return gulp.src(['src/js/*.js', 'src/views/js/*.js'], { base: 'src' })
         .pipe(uglify())
         .pipe(gulp.dest('dist'));
+});
+
+gulp.task('critical', ['minify'], function () {
+    critical.generate({
+        inline: true,
+        base: 'dist/',
+        src: 'index.html',
+        css: ['dist/css/style.css'],
+        dest: 'index.html',
+        minify: true,
+        width: 320,
+        height: 480
+    });
 });
 
 gulp.task('images', ['imagemin', 'png', 'responsive-img', 'responsive-thumbnail']);
