@@ -4,6 +4,7 @@
   "description": "Website Optimization project for Udacity Front-End Web Developer Nanodegree program",
   "devDependencies": {
     "critical": "^0.8.4",
+    "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-clean-css": "^3.4.0",
     "gulp-concat": "^2.6.1",

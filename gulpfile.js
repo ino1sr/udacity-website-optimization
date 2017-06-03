@@ -49,7 +49,7 @@ gulp.task('responsive-thumbnail', function() {
 // Minify html
 
 gulp.task('minify-html', function() {
-    return gulp.src(['src/*.html', 'src/views/*.html'], { base: 'src' })
+    return gulp.src('src/*.html', { base: 'src' })
         .pipe(htmlmin({ collapseWhitespace: true }))
         .pipe(gulp.dest('dist'));
 });
@@ -62,22 +62,17 @@ gulp.task('minify-css', function() {
         .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('minify-css-views', function() {
-    return gulp.src('src/views/css/*.css')
-        .pipe(concat('styles.css'))
-        .pipe(cleanCSS({ compatibility: 'ie8' }))
-        .pipe(gulp.dest('dist/views/css'));
-});
-
 // Minify js
 
 gulp.task('uglify', function() {
-    return gulp.src(['src/js/*.js', 'src/views/js/*.js'], { base: 'src' })
+    return gulp.src('src/js/*.js', { base: 'src' })
         .pipe(uglify())
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('critical', ['minify'], function () {
+// Inline critical-path css
+
+gulp.task('critical', ['minify'], function() {
     critical.generate({
         inline: true,
         base: 'dist/',
@@ -90,6 +85,26 @@ gulp.task('critical', ['minify'], function () {
     });
 });
 
-gulp.task('images', ['imagemin', 'png', 'responsive-img', 'responsive-thumbnail']);
-gulp.task('minify', ['minify-html', 'minify-css', 'minify-css-views']);
+// Copy `views` except images to `dist`
 
+gulp.task('copy', function() {
+    return gulp.src(['src/views/*.html', 'src/views/css/*', 'src/views/js/*'], { base: 'src/views' })
+        .pipe(gulp.dest('dist/views'));
+});
+
+gulp.task('images', ['imagemin', 'png', 'responsive-img', 'responsive-thumbnail']);
+gulp.task('minify', ['minify-html', 'minify-css', 'uglify']);
+
+// Default task
+
+gulp.task('default', ['images', 'critical', 'copy']);
+
+// Clean `dist` folder
+
+var del = require('del');
+
+gulp.task('clean', function() {
+    return del([
+        'dist/**/*'
+    ]);
+});
