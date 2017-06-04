@@ -427,6 +427,7 @@ var resizePizzas = function(size) {
   function changePizzaSizes (size) {
     var newWidth;
 
+    // Change the size value to a percent width
     switch(size) {
       case "1":
         newWidth = 25;
@@ -537,6 +538,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("movingPizzas1").appendChild(elem);
   }
 
+  // Selection of elements class mover is now outside of the function updatePositions
   items = document.getElementsByClassName('mover');
+
+  // Add requestAnimationFrame to optimize animation
   requestAnimationFrame(updatePositions);
 });
