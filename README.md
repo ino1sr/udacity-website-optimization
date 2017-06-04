@@ -1,55 +1,75 @@
 ## Website Performance Optimization portfolio project
 
-Your challenge, if you wish to accept it (and we sure hope you will), is to optimize this online portfolio for speed! In particular, optimize the critical rendering path and make this page render as quickly as possible by applying the techniques you've picked up in the [Critical Rendering Path course](https://www.udacity.com/course/ud884).
+This Website Optimization project is part of the [Udacity Front-End Web Developer Nanodegree][1] program and the challenge is to optimize an online portfolio for speed! In particular, optimize the critical rendering path and make the page render as quickly as possible by applying the techniques you've picked up in the [Critical Rendering Path course][2].
 
-To get started, check out the repository and inspect the code.
+### Part 1: Optimize PageSpeed Insights score for index.html
 
-### Getting started
+#### Goal
 
-#### Part 1: Optimize PageSpeed Insights score for index.html
+`index.html` achieves a PageSpeed score of at least 90 for Mobile and Desktop.
 
-Some useful tips to help you get started:
+#### Optimizations applied
 
-1. Check out the repository
-1. To inspect the site on your phone, you can run a local server
+- With Gulp tasks:
+  - Optimize images.
+  - Minify HTML, CSS and JavaScript.
+  - Inline critical-path CSS.
+- Unblock CSS for print with Media Queries.
+- Defer parser-blocking JavaScript.
+- Use Web Font Loader to load Google font asynchronously.
 
-  ```bash
-  $> cd /path/to/your-project-folder
-  $> python -m SimpleHTTPServer 8080
-  ```
+### Part 2: Optimize Frames per Second in pizza.html
 
-1. Open a browser and visit localhost:8080
-1. Download and install [ngrok](https://ngrok.com/) to the top-level of your project directory to make your local server accessible remotely.
+#### Goal
+
+1. Optimizations made to `views/js/main.js` make `views/pizza.html` render with a consistent frame-rate at 60fps when scrolling.
+2. Time to resize pizzas is less than 5 ms using the pizza size slider on the views/pizza.html page. Resize time is shown in the browser developer tools.
+
+#### Optimizations applied
+
+- Remove function determineDx and merge function sizeSwitcher into changePizzaSizes.
+- Declare a variable with selected elements and move it outside of the loop.
+- Read layout properties outside of the loop to avoid Forced Synchronous Layout.
+- Update `querySelector`/`querySelectorAll` to `getElementById`/`getElementsByClassName` which are faster.
+- Optimize scroll event with requestAnimationFrame.
+- Reduce the number of pizza images appended to the backgroud.
+
+### How to run the application
+
+Check the live version of the optimized portfolio [here][3].
+
+**OR**
+
+1. Clone or download this repository.
+
+2. Go to the root of the project directory and install all dependencies:
+
+```
+$ npm install
+```
+
+3. Run the tasks in `gulpfile.js`:
+
+```
+$ gulp
+```
+
+This will create a `dist` folder with optimized code.
+
+4. Run a local server.
+
+```bash
+ $ http-server -p 8080
+```
+
+5. Open a browser and visit `http://localhost:8080`.
+
+6. If you need to make this project visible to the outside, you may run `ngrok`.
 
   ``` bash
-  $> cd /path/to/your-project-folder
-  $> ./ngrok http 8080
+ $ ./ngrok http 8080
   ```
 
-1. Copy the public URL ngrok gives you and try running it through PageSpeed Insights! Optional: [More on integrating ngrok, Grunt and PageSpeed.](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)
-
-Profile, optimize, measure... and then lather, rinse, and repeat. Good luck!
-
-#### Part 2: Optimize Frames per Second in pizza.html
-
-To optimize views/pizza.html, you will need to modify views/js/main.js until your frames per second rate is 60 fps or higher. You will find instructive comments in main.js. 
-
-You might find the FPS Counter/HUD Display useful in Chrome developer tools described here: [Chrome Dev Tools tips-and-tricks](https://developer.chrome.com/devtools/docs/tips-and-tricks).
-
-### Optimization Tips and Tricks
-* [Optimizing Performance](https://developers.google.com/web/fundamentals/performance/ "web performance")
-* [Analyzing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/analyzing-crp.html "analyzing crp")
-* [Optimizing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/optimizing-critical-rendering-path.html "optimize the crp!")
-* [Avoiding Rendering Blocking CSS](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-blocking-css.html "render blocking css")
-* [Optimizing JavaScript](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/adding-interactivity-with-javascript.html "javascript")
-* [Measuring with Navigation Timing](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/measure-crp.html "nav timing api"). We didn't cover the Navigation Timing API in the first two lessons but it's an incredibly useful tool for automated page profiling. I highly recommend reading.
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/eliminate-downloads.html">The fewer the downloads, the better</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer.html">Reduce the size of text</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/image-optimization.html">Optimize images</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching.html">HTTP caching</a>
-
-### Customization with Bootstrap
-The portfolio was built on Twitter's <a href="http://getbootstrap.com/">Bootstrap</a> framework. All custom styles are in `dist/css/portfolio.css` in the portfolio repo.
-
-* <a href="http://getbootstrap.com/css/">Bootstrap's CSS Classes</a>
-* <a href="http://getbootstrap.com/components/">Bootstrap's Components</a>
+[1]: https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001
+[2]: https://www.udacity.com/course/ud884
+[3]: https://ino1sr.github.io/udacity-website-optimization/dist/index.html
