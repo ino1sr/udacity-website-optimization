@@ -497,7 +497,7 @@ var itemsColumnCount;
 function updatePositions() {
   // avoids error when scroll event happens before DOMContentLoaded is done
   if (!items) {
-    return
+    return;
   }
 
   frame++;
