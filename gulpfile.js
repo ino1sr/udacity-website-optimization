@@ -13,7 +13,7 @@ var critical = require('critical');
 // Optimize images
 
 gulp.task('imagemin', function() {
-  return gulp.src(['src/img/*.jpg', 'src/views/images/*.png'], {base: 'src'})
+  return gulp.src('src/img/*.jpg', {base: 'src'})
     .pipe(imagemin(imageminGuetzli()))
     .pipe(gulp.dest('dist'));
 });
@@ -22,6 +22,11 @@ gulp.task('png', function() {
   return gulp.src('src/img/*.png')
     .pipe(imagemin(imagemin.optipng({optimizationLevel: 7})))
     .pipe(gulp.dest('dist/img'));
+});
+
+gulp.task('png-copy', function() {
+  return gulp.src('src/views/images/*.png', {base: 'src/views'})
+    .pipe(gulp.dest('dist/views'));
 });
 
 gulp.task('responsive-img', function() {
@@ -98,7 +103,7 @@ gulp.task('copy', function() {
     .pipe(gulp.dest('dist/views'));
 });
 
-gulp.task('images', ['imagemin', 'png', 'responsive-img', 'responsive-thumbnail']);
+gulp.task('images', ['imagemin', 'png', 'png-copy', 'responsive-img', 'responsive-thumbnail']);
 gulp.task('minify', ['minify-html', 'minify-css', 'uglify']);
 
 // Default task
