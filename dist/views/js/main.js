@@ -462,8 +462,8 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
+var pizzasDiv = document.getElementById("randomPizzas");
 for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -492,6 +492,7 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 
 // Moves the sliding background pizzas based on scroll position
 var items;
+var itemsColumnCount;
 
 function updatePositions() {
   // avoids error when scroll event happens before DOMContentLoaded is done
@@ -502,9 +503,14 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var scrollTopPosition = document.body.scrollTop;
+  var scrollTopPosition = (document.documentElement.scrollTop || document.body.scrollTop);
+  var phases = [];
+  for (var i = 0; i < itemsColumnCount + 1; i++) {
+    phases.push(Math.sin((scrollTopPosition / 600) + i));
+  }
+
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((scrollTopPosition / 1250) + (i % 5));
+    var phase = phases[i % phases.length];
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
@@ -525,17 +531,28 @@ window.addEventListener('scroll', function() {
 
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
-  var cols = 8;
-  var s = 256;
-  for (var i = 0; i < 40; i++) {
+  var movingPizzas1 = document.getElementById("movingPizzas1");
+
+  var pizzaSpacing = 256;
+
+  var width = document.documentElement.clientWidth;
+  var height = document.documentElement.clientHeight;
+
+  var cols = Math.ceil(width / pizzaSpacing);
+  var rows = Math.ceil(height / pizzaSpacing);
+  var pizzaCount = cols * rows;
+
+  itemsColumnCount = cols;
+
+  for (var i = 0; i < pizzaCount; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza-min.png";
     elem.style.height = "100px";
-    elem.style.width = "73.333px";
-    elem.basicLeft = (i % cols) * s;
-    elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.getElementById("movingPizzas1").appendChild(elem);
+    elem.style.width = "73.33px";
+    elem.basicLeft = (i % cols) * pizzaSpacing;
+    elem.style.top = (Math.floor(i / cols) * pizzaSpacing) + 'px';
+    movingPizzas1.appendChild(elem);
   }
 
   // Selection of elements class mover is now outside of the function updatePositions
